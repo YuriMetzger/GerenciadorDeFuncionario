@@ -141,9 +141,9 @@ public class Agenda {
         try(PreparedStatement pst = 
             conexao.getConexao().prepareStatement("UPDATE agenda SET titulo = ?, prioridade = ?, data = ?, hora = ?, idFuncionario = ?, ativo =? where idAgenda ="+ID)){
             pst.setString(1, this.getTitulo());
-            pst.setString( 3, this.getPrioridade());
-            pst.setString( 2, this.getData() );
-            pst.setString( 4, this.getHora() );
+            pst.setString( 2, this.getPrioridade());
+            pst.setString( 3, this.getData());
+            pst.setString( 4, this.getHora());
             pst.setInt( 5, this.getIdFuncionario() );
             pst.setString(6, "1");
             

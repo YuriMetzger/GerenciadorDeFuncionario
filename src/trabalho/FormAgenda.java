@@ -58,6 +58,7 @@ public class FormAgenda extends javax.swing.JFrame {
         jLabel37 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
+        btAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agenda");
@@ -141,6 +142,13 @@ public class FormAgenda extends javax.swing.JFrame {
 
         jLabel38.setText("Hora:");
 
+        btAlterar.setText("Alterar");
+        btAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAlterarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,9 +188,11 @@ public class FormAgenda extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
                         .addComponent(agenda_salvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAlterar)
+                        .addGap(5, 5, 5)
                         .addComponent(agenda_editar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(agenda_excluir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -215,7 +225,8 @@ public class FormAgenda extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agenda_salvar)
                     .addComponent(agenda_editar)
-                    .addComponent(agenda_excluir))
+                    .addComponent(agenda_excluir)
+                    .addComponent(btAlterar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -366,6 +377,15 @@ public class FormAgenda extends javax.swing.JFrame {
         atualizaTabelaAgenda();
     }//GEN-LAST:event_agenda_excluirActionPerformed
 
+    private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
+        Integer idx = jtAgenda.getSelectedRow();
+        agenda_nome.setSelectedItem(jtAgenda.getModel().getValueAt(idx,1));
+        agenda_tituloCompromisso.setText((String) jtAgenda.getModel().getValueAt(idx,2));
+        agenda_prioridade.setSelectedItem(jtAgenda.getModel().getValueAt(idx,3));
+        agenda_data.setText((String) jtAgenda.getModel().getValueAt(idx,4));
+        agenda_hora.setText((String) jtAgenda.getModel().getValueAt(idx,5));
+    }//GEN-LAST:event_btAlterarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -410,6 +430,7 @@ public class FormAgenda extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> agenda_prioridade;
     private javax.swing.JButton agenda_salvar;
     private javax.swing.JTextField agenda_tituloCompromisso;
+    private javax.swing.JButton btAlterar;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;

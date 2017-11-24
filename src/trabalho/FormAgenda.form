@@ -74,9 +74,11 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
                       <Component id="agenda_salvar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btAlterar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="agenda_editar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="agenda_excluir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -122,6 +124,7 @@
                   <Component id="agenda_salvar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="agenda_editar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="agenda_excluir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btAlterar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="jScrollPane7" min="-2" pref="92" max="-2" attributes="0"/>
@@ -278,6 +281,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Hora:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btAlterar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Alterar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAlterarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
