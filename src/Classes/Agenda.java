@@ -31,6 +31,7 @@ public class Agenda {
 
     private final Conexao conexao = new Conexao();
     private CadFuncionario funcionario = new CadFuncionario();
+    ArrayList pesquisa = new ArrayList();
 
     
     public Agenda( String titulo, String nomeFuncionario, String prioridade, String data, String hora, String Agenda, String ativo) {
@@ -116,12 +117,12 @@ public class Agenda {
     {  
         CadFuncionario funcionario = new CadFuncionario();
 
-        if( verificarJaExistente( this.titulo, this.data, this.hora )){
-            conexao.close();
+        if( true){
+            //conexao.close();
             try (PreparedStatement pst = 
                     conexao.getConexao().prepareStatement(
-                    "insert into agenda(idAgenda, titulo, data, prioridade, hora, idFuncionario, ativo)"
-                            + " values (0,?,?,?,?,?,?)")) {
+                    "insert into agenda( titulo, `data`, prioridade, hora, idFuncionario, ativo)"
+                            + " values (?,?,?,?,?,?)")) {
                 pst.setString( 1, this.getTitulo() );
                 pst.setString( 2, this.getData() );
                 pst.setString( 3, this.getPrioridade() );
@@ -139,7 +140,7 @@ public class Agenda {
     public void atualizaAgenda(String ID) throws SQLException{
        CadFuncionario funcionario = new CadFuncionario();
         try(PreparedStatement pst = 
-            conexao.getConexao().prepareStatement("UPDATE agenda SET titulo = ?, prioridade = ?, data = ?, hora = ?, idFuncionario = ?, ativo =? where idAgenda ="+ID)){
+            conexao.getConexao().prepareStatement("UPDATE agenda SET titulo = ?, prioridade = ?, `data` = ?, hora = ?, idFuncionario = ?, ativo =? where idAgenda ="+ID)){
             pst.setString(1, this.getTitulo());
             pst.setString( 2, this.getPrioridade());
             pst.setString( 3, this.getData());
@@ -167,19 +168,42 @@ public class Agenda {
         
         try (Statement st = conexao.getConexao().createStatement()) {
             rs = st.executeQuery(
-                    "select a.idAgenda, a.data, a.hora, a.titulo, a.prioridade, a.ativo, f.idFuncionario from agenda a, funcionario f"
-                    + " where f.idFuncionario = a.idFuncionario and ativo <> 0");
+                    "select a.idAgenda, a.`data`, a.hora, a.titulo, a.prioridade, a.ativo, f.nome_funcionario from agenda a inner join funcionario f on a.idFuncionario = f.idFuncionario "
+                    + "where f.idFuncionario = a.idFuncionario and a.ativo <> 0");
             lista = new ArrayList<>();
             
             while(rs.next())
             {
-                lista.add( new Agenda(  rs.getString("titulo"), rs.getString("idFuncionario"), rs.getString("prioridade"), 
+                lista.add( new Agenda(  rs.getString("titulo"), rs.getString("nome_funcionario"), rs.getString("prioridade"), 
                 rs.getString("data"), rs.getString("hora"), rs.getString("idAgenda"), rs.getString("ativo")));
             }
         }
         conexao.close();
         
         return lista;
+    }
+       public ArrayList<Agenda> pesquisaAgenda(String query) throws SQLException
+    {
+        ResultSet rs;
+        
+        
+        try (Statement st = conexao.getConexao().createStatement()) {
+            rs = st.executeQuery(query);
+            pesquisa = new ArrayList<>();
+            
+            while(rs.next())
+            {
+                pesquisa.add( new Agenda(  rs.getString("titulo"), rs.getString("nome_funcionario"), rs.getString("prioridade"), 
+                rs.getString("data"), rs.getString("hora"), rs.getString("idAgenda"), rs.getString("ativo")));
+            }
+        }
+
+        conexao.close();
+ 
+        return pesquisa;    
+    }
+    public ArrayList<Agenda> retornaPesquisa(){
+        return pesquisa;
     }
     public boolean verificarJaExistente( String titulo, String data, String hora) throws SQLException{
         

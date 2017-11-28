@@ -51,7 +51,25 @@ public class FormAgenda extends javax.swing.JFrame {
         agenda_prioridade = new javax.swing.JComboBox<>();
         agenda_tituloCompromisso = new javax.swing.JTextField();
         agenda_hora = new javax.swing.JFormattedTextField();
+        try{
+            javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##:##");
+            agenda_hora = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
+        try{
+            javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##/##/####");
+            agenda_data = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         agenda_data = new javax.swing.JFormattedTextField();
+        try{
+            javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##/##/####");
+            agenda_data = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         agenda_nome = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
@@ -237,52 +255,59 @@ public class FormAgenda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void agenda_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agenda_salvarActionPerformed
-        Agenda agenda = new Agenda();
-        String titulo = agenda_tituloCompromisso.getText();
-        String prioridade = (String)agenda_prioridade.getSelectedItem();
-        String funcionario = (String)agenda_nome.getSelectedItem();
-        int idFuncionario = 0;
-        String data = agenda_data.getText();
-        String hora = agenda_hora.getText();
+        Integer contador = 0;
+        if(agenda_tituloCompromisso.getText().equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(null,"Favor inserir Título para o comprisso!");
+            contador++;
+        }
+        if(agenda_data.getText().length() != 10 && contador == 0 || agenda_data.getText().equals("  /  /    ")){
+            JOptionPane.showMessageDialog(null, "Data inválida!");
+            contador++;
+        }
+        if(agenda_hora.getText().length() != 5 && contador == 0){
+            JOptionPane.showMessageDialog(null, "Hora inválida!");
+            contador++;
+        }
+        if(contador == 0){
+            Agenda agenda = new Agenda();
+            String titulo = agenda_tituloCompromisso.getText();
+            String prioridade = (String)agenda_prioridade.getSelectedItem();
+            String funcionario = (String)agenda_nome.getSelectedItem();
+            int idFuncionario = 0;
+            String data = agenda_data.getText();
+            String hora = agenda_hora.getText();
 
-        for (int i = 0; i < listaFuncionario.size(); i++) {
-            if( listaFuncionario.get(i).getNome().equalsIgnoreCase(funcionario) ){
-                idFuncionario = listaFuncionario.get(i).getCodigo();
+            for (int i = 0; i < listaFuncionario.size(); i++) {
+                if( listaFuncionario.get(i).getNome().equalsIgnoreCase(funcionario) ){
+                    idFuncionario = listaFuncionario.get(i).getCodigo();
+                }
             }
+                agenda.setTitulo(titulo);
+                agenda.setPrioridade(prioridade);
+                agenda.setNomeFuncionario(funcionario);
+                agenda.setIdFuncionario(idFuncionario);
+                agenda.setData(data);
+                agenda.setHora(hora);
+            if(jtAgenda.getSelectedRow() == -1){
+                try {
+                    agenda.cadastrarAgenda();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CadFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                Integer idx = jtAgenda.getSelectedRow();
+                String ID = (String) jtAgenda.getModel().getValueAt(idx,0);
+                agenda.atualizaAgenda(ID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormAgenda.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            atualizaTabelaAgenda();
         }
-            agenda.setTitulo(titulo);
-            agenda.setPrioridade(prioridade);
-            agenda.setNomeFuncionario(funcionario);
-            agenda.setIdFuncionario(idFuncionario);
-            agenda.setData(data);
-            agenda.setHora(hora);
-        if(jtAgenda.getSelectedRow() == -1){
-            try {
-                agenda.cadastrarAgenda();
-            } catch (SQLException ex) {
-                Logger.getLogger(CadFuncionario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            try {
-            Integer idx = jtAgenda.getSelectedRow();
-            String ID = (String) jtAgenda.getModel().getValueAt(idx,0);
-            agenda.atualizaAgenda(ID);
-            } catch (SQLException ex) {
-                Logger.getLogger(FormAgenda.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        atualizaTabelaAgenda();
     }//GEN-LAST:event_agenda_salvarActionPerformed
     public void atualizaTabelaAgenda(){
         Agenda agenda = new Agenda();
-        jtAgenda.addMouseListener(new MouseAdapter(){
-            @Override  
-            public void mouseClicked(MouseEvent e) {  
-                if (e.getClickCount() == 1) {   
-                    JOptionPane.showMessageDialog(null,"rwar");
-                }  
-            }  
-        });
         try {
             listaAgenda = agenda.listarAgenda();
             
@@ -310,14 +335,6 @@ public class FormAgenda extends javax.swing.JFrame {
                 new SimpleTableModel(dados, colunas);
          
          JTable jtable = new JTable(modelo);
-          jtAgenda.addMouseListener(new MouseAdapter(){
-            @Override  
-            public void mouseClicked(MouseEvent e) {  
-                if (e.getClickCount() == 2) {   
-                    JOptionPane.showMessageDialog(null,"rwar");
-                }  
-            }  
-        });
          return jtable;
     }
     

@@ -238,11 +238,18 @@
     <Component class="javax.swing.JTextField" name="agenda_tituloCompromisso">
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="agenda_hora">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xa;javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter(&quot;##:##&quot;);&#xa;agenda_hora = new javax.swing.JFormattedTextField(data);&#xa;}&#xa;catch (Exception e){&#xa;}"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="agenda_data">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agenda_dataActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xa;javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter(&quot;##/##/####&quot;);&#xa;agenda_data = new javax.swing.JFormattedTextField(data);&#xa;}&#xa;catch (Exception e){&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="try{&#xa;javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter(&quot;##/##/####&quot;);&#xa;agenda_data = new javax.swing.JFormattedTextField(data);&#xa;}&#xa;catch (Exception e){&#xa;}"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JComboBox" name="agenda_nome">
       <Properties>

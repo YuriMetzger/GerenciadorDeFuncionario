@@ -22,59 +22,69 @@ public class Funcionario {
     private int cargo;
     private String email;
     private String naturalidade;
-    private boolean ativo;
-    private boolean  inativo;
-    private boolean  vale_trans;
-    private boolean vale_refe;
-    private boolean aux_edu;
-    private boolean plano_saude;
-    private final Conexao conexao = new Conexao();
+    private int ativo;
+    private int  inativo;
+    private int  vale_trans;
+    private int vale_refe;
+    private int aux_edu;
+    private int plano_saude;
+    private int outros;
 
-    public boolean isAtivo() {
+    public int getOutros() {
+        return outros;
+    }
+
+    public void setOutros(int outros) {
+        this.outros = outros;
+    }
+    private final Conexao conexao = new Conexao();
+   
+
+    public int isAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(int ativo) {
         this.ativo = ativo;
     }
 
-    public boolean isInativo() {
+    public int isInativo() {
         return inativo;
     }
 
-    public void setInativo(boolean inativo) {
+    public void setInativo(int inativo) {
         this.inativo = inativo;
     }
 
-    public boolean isVale_trans() {
+    public int isVale_trans() {
         return vale_trans;
     }
 
-    public void setVale_trans(boolean vale_trans) {
+    public void setVale_trans(int vale_trans) {
         this.vale_trans = vale_trans;
     }
 
-    public boolean isVale_refe() {
+    public int isVale_refe() {
         return vale_refe;
     }
 
-    public void setVale_refe(boolean vale_refe) {
+    public void setVale_refe(int vale_refe) {
         this.vale_refe = vale_refe;
     }
 
-    public boolean isAux_edu() {
+    public int isAux_edu() {
         return aux_edu;
     }
 
-    public void setAux_edu(boolean aux_edu) {
+    public void setAux_edu(int aux_edu) {
         this.aux_edu = aux_edu;
     }
 
-    public boolean isPlano_saude() {
+    public int isPlano_saude() {
         return plano_saude;
     }
 
-    public void setPlano_saude(boolean plano_saude) {
+    public void setPlano_saude(int plano_saude) {
         this.plano_saude = plano_saude;
     }
    
@@ -94,7 +104,7 @@ public class Funcionario {
         this.naturalidade = naturalidade;
     }
 
-    public Funcionario(int codigo, int aInt1, String cpf, String rg, String nome, String situacao, String dataNasc, String dataAdmissao, String descricao, int cargo, String email, String naturalidade) {
+    public Funcionario(int codigo, String cpf, String rg, String nome, String situacao, String dataNasc, String dataAdmissao, String descricao, int cargo, String email, String naturalidade, int ativo, int inativo, int vale_trans, int vale_refe, int aux_edu, int plano_saude, int outros) {
         this.codigo = codigo;
         this.cpf = cpf;
         this.rg = rg;
@@ -106,8 +116,17 @@ public class Funcionario {
         this.cargo = cargo;
         this.email = email;
         this.naturalidade = naturalidade;
+        this.ativo = ativo;
+        this.inativo = inativo;
+        this.vale_trans = vale_trans;
+        this.vale_refe = vale_refe;
+        this.aux_edu = aux_edu;
+        this.plano_saude = plano_saude;
+        this.outros = outros;
     }
 
+    
+    
     public Funcionario(){
         
     }
@@ -195,12 +214,20 @@ public class Funcionario {
     public ArrayList<Integer> Beneficios(){
         ArrayList<Integer> beneficios = new ArrayList<Integer>();
         
-        if( this.vale_trans ){
+        if( this.vale_trans == 1){
             beneficios.add(1);
-        }else if( this.vale_refe ){
+        }
+        
+        if( this.vale_refe == 1){
             beneficios.add(2);
-        }else if( this.plano_saude ){
+        }
+        
+        if( this.plano_saude == 1 ){
             beneficios.add(3);
+        }
+        
+        if( this.aux_edu == 1 ){
+            beneficios.add(4);
         }
         
         return beneficios;
@@ -218,7 +245,25 @@ public class Funcionario {
             
             while(rs.next())
             {
-                lista.add( new Funcionario(rs.getInt("idFuncionario"), rs.getInt("codigo"), rs.getString("cpf"), rs.getString("rg"), rs.getString("nome_funcionario"), rs.getString("situacao"), rs.getString("dataNasc"), rs.getString("dataAdmissao"), rs.getString("descricao"), rs.getInt("cargo"), rs.getString("email"), rs.getString("naturalidade")));             
+                lista.add( new Funcionario(rs.getInt("idFuncionario"), rs.getString("cpf"), rs.getString("rg"), rs.getString("nome_funcionario"), rs.getString("situacao"), rs.getString("dataNasc"), rs.getString("dataAdmissao"), rs.getString("descricao"), rs.getInt("cargo"), rs.getString("email"), rs.getString("naturalidade"), rs.getInt("ativo"), rs.getInt("inativo"), rs.getInt("vale_trans"), rs.getInt("vale_ref"), rs.getInt("aux_edu"), rs.getInt("plano_saude"), rs.getInt("outros")));             
+            }
+        }
+        conexao.close();
+        
+        return lista;
+    }
+        public ArrayList<Funcionario> PesquisaFuncionario(String query) throws SQLException
+    {
+        ResultSet rs;
+        ArrayList<Funcionario> lista;
+        
+        try (Statement st = conexao.getConexao().createStatement()) {
+            rs = st.executeQuery(query);
+            lista = new ArrayList<>();
+            
+            while(rs.next())
+            {
+                lista.add( new Funcionario(rs.getInt("idFuncionario"), rs.getString("cpf"), rs.getString("rg"), rs.getString("nome_funcionario"), rs.getString("situacao"), rs.getString("dataNasc"), rs.getString("dataAdmissao"), rs.getString("descricao"), rs.getInt("idCargo"), rs.getString("email"), rs.getString("naturalidade"), rs.getInt("ativo"), rs.getInt("inativo"), rs.getInt("vale_trans"), rs.getInt("vale_ref"), rs.getInt("aux_edu"), rs.getInt("plano_saude"), rs.getInt("outros")));             
             }
         }
         conexao.close();
@@ -226,30 +271,88 @@ public class Funcionario {
         return lista;
     }  
     
-     public void cadastrarFuncionario() throws SQLException
-    {
-            try (PreparedStatement pst = 
+    public void cadastrarFuncionario() throws SQLException
+    {         
+        ResultSet rs;
+        int codigoFuncionario = 0;
+        ArrayList<Integer> lista = new  ArrayList<Integer>();
+        
+        try (PreparedStatement pst = 
                     conexao.getConexao().prepareStatement(
-                    "insert into funcionario"
-                            + " values (0,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
+                    "insert into funcionario( nome_funcionario, cpf, rg, naturalidade, dataNasc, "
+                            + "dataAdmissao, descricao, ativo, codigo, situacao, cargo, email, vale_trans, vale_ref,"
+                            + "aux_edu, outros, plano_saude, inativo )"
+                            + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ")) {
+                
+                /* Cadastro de Funcionários Inicio */
                 pst.setString(1, this.getNome());
                 pst.setString(2, this.getCpf());
-                pst.setString(3, this.getNome());
-                pst.setString(4, this.getRg());
-                pst.setString(5, this.getNaturalidade());
-                pst.setString(6, this.getBeneficios());
-                pst.setString(7, this.getDataNasc());
-                pst.setString(8, this.getDataAdmissao());
-                pst.setString(9, this.getDescricao());
-                pst.setInt(10, this.getCodigo());
-                pst.setString(11, this.getSituacao());
-                pst.setInt(12, this.getCargo());
-                pst.setString(13, this.getEmail());
+                pst.setString(3, this.getRg());
+                pst.setString(4, this.getNaturalidade());
+                pst.setString(5, this.getDataNasc());
+                pst.setString(6, this.getDataAdmissao());
+                pst.setString(7, this.getDescricao());
+                pst.setInt(8, this.isAtivo());
+                pst.setInt(9, this.getCodigo());
+                pst.setString(10, this.getSituacao());
+                pst.setInt(11, this.getCargo());
+                pst.setString(12, this.getEmail());
+                pst.setInt(13, this.isVale_trans());
+                pst.setInt(14, this.isVale_refe());
+                pst.setInt(15, this.isAux_edu());
+                pst.setInt(16, this.getOutros());
+                pst.setInt(17, this.isPlano_saude());
+                pst.setInt(18, this.isInativo());
                 pst.executeUpdate();
-                
-                JOptionPane.showMessageDialog(null, "Funcionario Cadastrado!");
-            }
-            conexao.close();
+                /* Cadastro de Funcionários Fim */
     
+                JOptionPane.showMessageDialog(null, "Funcionário Cadastrado!");
+            }
+    }
+    
+    public void deletarFuncionario( int codigo ) throws SQLException {
+        try (PreparedStatement pst = 
+            conexao.getConexao().prepareStatement(
+            "DELETE FROM funcionario WHERE idFuncionario = ?")) {
+            pst.setInt(1, codigo);
+             pst.executeUpdate();
+             
+             JOptionPane.showMessageDialog(null, " Funcionario Deletado!");
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        conexao.close();
+    }
+    
+    public void editarFuncionario() throws SQLException{
+        try (PreparedStatement pst = 
+                conexao.getConexao().prepareStatement(
+                "UPDATE funcionario SET nome_funcionario = ?, cpf = ?, rg = ?, naturalidade = ?, dataNasc = ?, "
+                            + "dataAdmissao = ?, descricao = ?, ativo = ?,situacao = ?, cargo = ?, email = ?, vale_trans = ?, vale_ref = ?,"
+                            + "aux_edu = ?, outros = ?, plano_saude = ?, inativo = ?  WHERE idFuncionario = ?") ) {
+            pst.setString(1, this.getNome());
+                pst.setString(2, this.getCpf());
+                pst.setString(3, this.getRg());
+                pst.setString(4, this.getNaturalidade());
+                pst.setString(5, this.getDataNasc());
+                pst.setString(6, this.getDataAdmissao());
+                pst.setString(7, this.getDescricao());
+                pst.setInt(8, this.isAtivo());
+                pst.setString(9, this.getSituacao());
+                pst.setInt(10, this.getCargo());
+                pst.setString(11, this.getEmail());
+                pst.setInt(12, this.isVale_trans());
+                pst.setInt(13, this.isVale_refe());
+                pst.setInt(14, this.isAux_edu());
+                pst.setInt(15, this.getOutros());
+                pst.setInt(16, this.isPlano_saude());
+                pst.setInt(17, this.isInativo());
+                pst.setInt(18, this.getCodigo());
+            
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Departamento Editado!");
+        }
+        conexao.close();
     }
 }

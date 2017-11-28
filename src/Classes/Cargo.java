@@ -117,17 +117,16 @@ public class Cargo {
         }
         conexao.close();
     }
-        public void deletarCargo() throws SQLException {
-            try (PreparedStatement pst = 
-                conexao.getConexao().prepareStatement(
-                "DELETE FROM cargo WHERE idCargo = ?")) {
-                pst.setInt(1, this.getIdCargo());
-                 pst.executeUpdate();
-            }
-            conexao.close();
+    
+    public void deletarCargo() throws SQLException {
+        try (PreparedStatement pst = 
+            conexao.getConexao().prepareStatement(
+            "DELETE FROM cargo WHERE idCargo = ?")) {
+            pst.setInt(1, this.getIdCargo());
+             pst.executeUpdate();
         }
-    
-    
+        conexao.close();
+    }
     
     public ArrayList<Cargo> listarCargos() throws SQLException
     {

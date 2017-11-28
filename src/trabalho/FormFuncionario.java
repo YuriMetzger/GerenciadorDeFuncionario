@@ -8,10 +8,12 @@ package trabalho;
 import Classes.Cargo;
 import Classes.Funcionario;
 import Classes.SimpleTableModel;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -40,28 +42,21 @@ public class FormFuncionario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel19 = new javax.swing.JLabel();
-        funcionario_codigo = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         funcionario_nome = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        funcionario_cpf = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        funcionario_rg = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         funcionario_email = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         funcionario_ativo = new javax.swing.JCheckBox();
         funcionario_inativo = new javax.swing.JCheckBox();
         jLabel25 = new javax.swing.JLabel();
-        funcionario_dataNasc = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
-        funcionario_naturalidade = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        funcionario_dataAdmissao = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         funcionario_salvar = new javax.swing.JButton();
-        funcionario_editar = new javax.swing.JButton();
+        funcionario_alterar = new javax.swing.JButton();
         funcionario_excluir = new javax.swing.JButton();
         funcionario_cargo = new javax.swing.JComboBox<>();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -70,20 +65,25 @@ public class FormFuncionario extends javax.swing.JFrame {
         funcionario_vale_trans = new javax.swing.JCheckBox();
         funcionario_vale_refe = new javax.swing.JCheckBox();
         funcionario_aux_edu = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        func_outros = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         funcionario_descricao = new javax.swing.JTextField();
         funcionario_plano_saude = new javax.swing.JCheckBox();
+        funcionario_cpf = new javax.swing.JFormattedTextField();
+        funcionario_rg = new javax.swing.JFormattedTextField();
+        funcionario_dataNasc = new javax.swing.JFormattedTextField();
+        funcionario_dataAdmissao = new javax.swing.JFormattedTextField();
+        funcionario_Limpar = new javax.swing.JButton();
+        funcionario_naturalidade = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Funcionário");
+        setAutoRequestFocus(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
         });
-
-        jLabel19.setText("Código:");
 
         jLabel20.setText("Nome:");
 
@@ -96,10 +96,20 @@ public class FormFuncionario extends javax.swing.JFrame {
         jLabel24.setText("Situação:");
 
         funcionario_ativo.setText("Ativo");
+        funcionario_ativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_ativoActionPerformed(evt);
+            }
+        });
 
         funcionario_inativo.setText("Inativo");
+        funcionario_inativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_inativoActionPerformed(evt);
+            }
+        });
 
-        jLabel25.setText("Data Nasc:");
+        jLabel25.setText("Data Nascimento:");
 
         jLabel26.setText("Naturalidade:");
 
@@ -114,9 +124,19 @@ public class FormFuncionario extends javax.swing.JFrame {
             }
         });
 
-        funcionario_editar.setText("Editar");
+        funcionario_alterar.setText("Alterar");
+        funcionario_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_alterarActionPerformed(evt);
+            }
+        });
 
         funcionario_excluir.setText("Excluir");
+        funcionario_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_excluirActionPerformed(evt);
+            }
+        });
 
         funcionario_cargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
@@ -141,22 +161,30 @@ public class FormFuncionario extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(jt_funcionario);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         funcionario_vale_trans.setText("Vale Transporte");
 
         funcionario_vale_refe.setText("Vale Refeição");
+        funcionario_vale_refe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_vale_refeActionPerformed(evt);
+            }
+        });
 
         funcionario_aux_edu.setText("Auxilio Educação");
 
-        jCheckBox4.setText("Outros");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        func_outros.setText("Outros");
+        func_outros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                func_outrosActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Descrição:");
+
+        funcionario_descricao.setEditable(false);
+        funcionario_descricao.setBackground(java.awt.Color.lightGray);
 
         funcionario_plano_saude.setText("Plano de Saúde");
 
@@ -172,7 +200,7 @@ public class FormFuncionario extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(funcionario_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(funcionario_plano_saude)
-                    .addComponent(jCheckBox4)
+                    .addComponent(func_outros)
                     .addComponent(funcionario_aux_edu)
                     .addComponent(funcionario_vale_trans)
                     .addComponent(funcionario_vale_refe))
@@ -181,7 +209,7 @@ public class FormFuncionario extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(22, 22, 22)
                 .addComponent(funcionario_vale_trans)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(funcionario_vale_refe)
@@ -190,7 +218,7 @@ public class FormFuncionario extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(funcionario_plano_saude)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
+                .addComponent(func_outros)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -200,73 +228,94 @@ public class FormFuncionario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        try {
+            funcionario_cpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            funcionario_rg.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            funcionario_dataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            funcionario_dataAdmissao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        funcionario_Limpar.setText("Limpar");
+        funcionario_Limpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionario_LimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(funcionario_salvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(funcionario_editar)
-                        .addGap(18, 18, 18)
-                        .addComponent(funcionario_excluir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(funcionario_email, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel21)
                             .addComponent(jLabel20)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel29))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(funcionario_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(funcionario_nome)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(funcionario_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel22)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(funcionario_rg, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)))
-                            .addComponent(funcionario_cargo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel29)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel23))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel24)
+                                .addComponent(funcionario_salvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(funcionario_ativo)
-                                .addGap(26, 26, 26)
-                                .addComponent(funcionario_inativo))
+                                .addComponent(funcionario_alterar)
+                                .addGap(14, 14, 14)
+                                .addComponent(funcionario_excluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(funcionario_Limpar)
+                                .addGap(19, 19, 19))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(funcionario_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(funcionario_rg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(funcionario_ativo)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(funcionario_inativo))
+                                            .addComponent(funcionario_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel25))
+                                    .addComponent(funcionario_email, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(funcionario_dataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel26)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(funcionario_naturalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(23, 23, 23))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(funcionario_dataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(178, 178, 178))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82))))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(funcionario_naturalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(funcionario_dataAdmissao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                        .addComponent(funcionario_dataNasc, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addComponent(funcionario_cargo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,54 +324,54 @@ public class FormFuncionario extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel19)
-                            .addComponent(funcionario_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(funcionario_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20)
-                            .addComponent(funcionario_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel25)
+                            .addComponent(funcionario_dataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(funcionario_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel22)
-                                .addComponent(funcionario_rg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel21))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel29)
-                            .addComponent(funcionario_cargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel22)
+                                    .addComponent(funcionario_rg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel21)
+                                    .addComponent(funcionario_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel29)
+                                    .addComponent(funcionario_cargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel24)
+                                    .addComponent(funcionario_ativo)
+                                    .addComponent(funcionario_inativo)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel28)
+                                    .addComponent(funcionario_dataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(funcionario_naturalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel26))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel24)
-                            .addComponent(funcionario_ativo)
-                            .addComponent(funcionario_inativo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel25)
-                            .addComponent(funcionario_dataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel26)
-                            .addComponent(funcionario_naturalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel23)
+                            .addComponent(funcionario_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(funcionario_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel28)
-                    .addComponent(funcionario_dataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(funcionario_salvar)
-                    .addComponent(funcionario_editar)
-                    .addComponent(funcionario_excluir))
-                .addGap(18, 18, 18)
+                    .addComponent(funcionario_alterar)
+                    .addComponent(funcionario_excluir)
+                    .addComponent(funcionario_Limpar))
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(35, 35, 35))
         );
 
         pack();
@@ -336,18 +385,42 @@ public class FormFuncionario extends javax.swing.JFrame {
         String naturalidade = funcionario_naturalidade.getText();
         int cargo = 0;
         String cargoNome = funcionario_cargo.getSelectedItem().toString();
-        Boolean ativo = funcionario_ativo.isSelected();
-        Boolean inativo = funcionario_inativo.isSelected();
-        Boolean vale_trans = funcionario_vale_trans.isSelected();
-        Boolean vale_refe = funcionario_vale_refe.isSelected();
-        Boolean aux_edu = funcionario_aux_edu.isSelected();
-        Boolean plano_saude = funcionario_plano_saude.isSelected();
+        int vale_trans =  0;
+        int vale_refe = 0;
+        int aux_edu = 0;
+        int plano_saude = 0;
+        int outros = 0;
         int codigo =    0;
         String email = funcionario_email.getText();
         String rg = funcionario_rg.getText();
         String descricao = funcionario_descricao.getText();
         String data_admis = funcionario_dataAdmissao.getText();
+        String data_nasc = funcionario_dataNasc.getText();
+        int ativo = 0;
         
+        if( funcionario_ativo.isSelected() ){
+            ativo = 1;
+        }
+        
+        if( funcionario_vale_trans.isSelected() ){
+            vale_trans = 1;
+        }
+        
+        if( funcionario_vale_refe.isSelected() ){
+            vale_refe = 1;
+        }
+        
+        if( funcionario_aux_edu.isSelected() ){
+            aux_edu = 1;
+        }
+        
+        if( funcionario_plano_saude.isSelected() ){
+            plano_saude = 1;
+        }
+        
+        if( func_outros.isSelected() ){
+            outros = 1;
+        }
         for (int i = 0; i < listaCargo.size(); i++) {
             
             if( listaCargo.get(i).getCargo().equalsIgnoreCase( cargoNome ) ){
@@ -365,23 +438,40 @@ public class FormFuncionario extends javax.swing.JFrame {
         funcionario.setDataAdmissao(data_admis);
         funcionario.setNaturalidade(naturalidade);
         funcionario.setAtivo(ativo);
-        funcionario.setInativo(inativo);
+        funcionario.setEmail(email);
         funcionario.setVale_trans(vale_trans);
         funcionario.setVale_refe(vale_refe);
         funcionario.setAux_edu(aux_edu);
         funcionario.setPlano_saude(plano_saude);
+        funcionario.setDataNasc(data_nasc);
+        funcionario.setOutros(outros);
       
         try {
-            funcionario.cadastrarFuncionario();
+            if ( editarFuncionario ) {
+                funcionario.setCodigo(codigoeditar);
+                funcionario.editarFuncionario();
+            }else{
+                funcionario.cadastrarFuncionario();
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(FormFuncionario.class.getName()).log(Level.SEVERE, null, ex);
         }
       
     }//GEN-LAST:event_funcionario_salvarActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    private void func_outrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_func_outrosActionPerformed
+        
+        if( func_outros.isSelected() ){
+            funcionario_descricao.setEditable(true);
+            funcionario_descricao.setBackground(Color.WHITE);
+        }else{
+            funcionario_descricao.setEditable(false);
+            funcionario_descricao.setBackground(Color.LIGHT_GRAY);
+            funcionario_descricao.setText("");
+        }
+        
+    }//GEN-LAST:event_func_outrosActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
@@ -401,6 +491,160 @@ public class FormFuncionario extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowActivated
 
+    private void funcionario_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_excluirActionPerformed
+     Object[] options = {"   Sim   ", "   Não   "};
+        int n = JOptionPane.showOptionDialog(null," Deseja realmente Excluir esse registro?","Excluir Funcionario",
+            JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
+        if(n == 0){
+            Integer idx = 0;
+            int codigo = 0;
+            
+            Funcionario funcionario = new Funcionario();
+
+            idx = jt_funcionario.getSelectedRow();
+            if( idx == -1){
+                JOptionPane.showMessageDialog(null, " Selecionar um item! ");
+            }else{
+                 codigo =  Integer.parseInt(jt_funcionario.getModel().getValueAt(idx, 0).toString());
+                try {
+                    funcionario.deletarFuncionario(codigo);
+                    atualizaTabelaFuncionario();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CadFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+    }//GEN-LAST:event_funcionario_excluirActionPerformed
+
+    private void funcionario_LimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_LimparActionPerformed
+
+      funcionario_nome.setText("");
+      funcionario_cpf.setText("");
+      funcionario_rg.setText("");
+      funcionario_cargo.setSelectedItem("");
+      funcionario_ativo.setSelected(false);
+      funcionario_inativo.setSelected(false);
+      funcionario_vale_trans.setSelected(false);
+      funcionario_vale_refe.setSelected(false);
+      funcionario_aux_edu.setSelected(false);
+      funcionario_plano_saude.setSelected(false);
+      func_outros.setSelected(false);
+      funcionario_dataNasc.setText("");
+      funcionario_naturalidade.setText("");
+      funcionario_dataAdmissao.setText("");
+      funcionario_email.setText("");
+      funcionario_descricao.setText("");
+      
+      codigoeditar = 0;
+      editarFuncionario = false;
+      
+    }//GEN-LAST:event_funcionario_LimparActionPerformed
+
+    private void funcionario_vale_refeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_vale_refeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_funcionario_vale_refeActionPerformed
+    
+    boolean editarFuncionario = false;
+    int codigoeditar = 0;
+    
+    private void funcionario_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_alterarActionPerformed
+        Integer idx = 0;
+
+        idx = jt_funcionario.getSelectedRow();
+        if( idx == -1){
+            JOptionPane.showMessageDialog(null, " Selecionar um item! ");
+        }else{
+            Funcionario funcionario = new Funcionario();
+            codigoeditar = Integer.parseInt(jt_funcionario.getModel().getValueAt(idx, 0).toString());
+            int codLista = 0;
+            
+            try {
+               listaFuncionario = funcionario.listarFuncionario();
+            } catch (SQLException ex) {
+                Logger.getLogger(FormFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            for (int i = 0; i < listaFuncionario.size(); i++) {
+                
+                if( listaFuncionario.get(i).getCodigo() == codigoeditar ){
+                    codLista = i;
+                }
+                
+            }
+            
+            editarFuncionario = true;
+            
+            if( listaFuncionario.get(codLista).isAtivo() == 1 ){
+                funcionario_ativo.setSelected(true);
+                funcionario_inativo.setSelected(false);
+            }else{
+                funcionario_ativo.setSelected(false);
+                funcionario_inativo.setSelected(true);
+            }
+            
+            if( listaFuncionario.get(codLista).isVale_trans()== 1 ){
+                funcionario_vale_trans.setSelected(true);
+            }else{
+                funcionario_vale_trans.setSelected(false);
+            }
+            
+            if( listaFuncionario.get(codLista).isVale_refe()== 1 ){
+                funcionario_vale_refe.setSelected(true);
+            }else{
+                funcionario_vale_refe.setSelected(false);
+            }
+            
+            if( listaFuncionario.get(codLista).isAux_edu()== 1 ){
+                funcionario_aux_edu.setSelected(true);
+            }else{
+                funcionario_aux_edu.setSelected(false);
+            }
+            
+            if( listaFuncionario.get(codLista).isPlano_saude() == 1 ){
+                funcionario_plano_saude.setSelected(true);
+            }else{
+                funcionario_plano_saude.setSelected(false);
+            }
+            
+            if( listaFuncionario.get(codLista).getOutros() == 1 ){
+                func_outros.setSelected(true);
+                func_outros.setSelected(false);
+            }else{
+                func_outros.setSelected(false);
+                func_outros.setSelected(true);
+            }
+            
+            funcionario_nome.setText( listaFuncionario.get(codLista).getNome() );
+            funcionario_cpf.setText( listaFuncionario.get(codLista).getCpf() );
+            funcionario_rg.setText( listaFuncionario.get(codLista).getRg() );
+            funcionario_cargo.setSelectedIndex(listaFuncionario.get(codLista).getCargo() );
+            funcionario_dataNasc.setText( listaFuncionario.get(codLista).getDataNasc() );
+            funcionario_naturalidade.setText( listaFuncionario.get(codLista).getNaturalidade() );
+            funcionario_dataAdmissao.setText( listaFuncionario.get(codLista).getDataAdmissao() );
+            funcionario_descricao.setText( listaFuncionario.get(codLista).getDescricao() );
+            funcionario_email.setText( listaFuncionario.get(codLista).getEmail() );
+            
+        }                                                   
+
+    }//GEN-LAST:event_funcionario_alterarActionPerformed
+
+    private void funcionario_ativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_ativoActionPerformed
+        
+        if( funcionario_inativo.isSelected() ){
+            funcionario_ativo.setSelected(true);
+            funcionario_inativo.setSelected(false);
+        }
+        
+    }//GEN-LAST:event_funcionario_ativoActionPerformed
+
+    private void funcionario_inativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionario_inativoActionPerformed
+        if( funcionario_ativo.isSelected() ){
+            funcionario_ativo.setSelected(false);
+            funcionario_inativo.setSelected(true);
+        }
+    }//GEN-LAST:event_funcionario_inativoActionPerformed
+
     public void atualizaTabelaFuncionario(){
         Funcionario funcionario = new Funcionario();
         
@@ -418,7 +662,7 @@ public class FormFuncionario extends javax.swing.JFrame {
     public JTable createJtableFuncionario( ArrayList<Funcionario> listafFuncionarios){
         ArrayList dados = new ArrayList();
         String[] colunas = new String[] 
-        { "Codigo", "nome","cpf", "rg", "dataNasc", "naturalidade", "email", "dataAdmissao" , "descricao"};
+        { "Código", "Nome","CPF", "RG", "Data Nasc.", "Naturalidade", "E-mail", "Data Admissão" , "Descricao"};
          
         for (Funcionario f:listaFuncionario){
             dados.add(new String[]
@@ -470,28 +714,27 @@ public class FormFuncionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox func_outros;
+    private javax.swing.JButton funcionario_Limpar;
+    private javax.swing.JButton funcionario_alterar;
     private javax.swing.JCheckBox funcionario_ativo;
     private javax.swing.JCheckBox funcionario_aux_edu;
     private javax.swing.JComboBox<String> funcionario_cargo;
-    private javax.swing.JTextField funcionario_codigo;
-    private javax.swing.JTextField funcionario_cpf;
-    private javax.swing.JTextField funcionario_dataAdmissao;
-    private javax.swing.JTextField funcionario_dataNasc;
+    private javax.swing.JFormattedTextField funcionario_cpf;
+    private javax.swing.JFormattedTextField funcionario_dataAdmissao;
+    private javax.swing.JFormattedTextField funcionario_dataNasc;
     private javax.swing.JTextField funcionario_descricao;
-    private javax.swing.JButton funcionario_editar;
     private javax.swing.JTextField funcionario_email;
     private javax.swing.JButton funcionario_excluir;
     private javax.swing.JCheckBox funcionario_inativo;
     private javax.swing.JTextField funcionario_naturalidade;
     private javax.swing.JTextField funcionario_nome;
     private javax.swing.JCheckBox funcionario_plano_saude;
-    private javax.swing.JTextField funcionario_rg;
+    private javax.swing.JFormattedTextField funcionario_rg;
     private javax.swing.JButton funcionario_salvar;
     private javax.swing.JCheckBox funcionario_vale_refe;
     private javax.swing.JCheckBox funcionario_vale_trans;
-    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
